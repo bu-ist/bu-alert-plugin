@@ -15,7 +15,13 @@ function bu_alert_start()
 		if (isset($bu_alert_campus_map[$campus]))
 		{
 			$message = stripslashes($_REQUEST['message']);
-			$result = BU_AlertsPlugin::startAlert($message, $campus);
+			$is_emergency = true;
+			//Check if the message is an important announcement
+			//instead of a bu-alert-emergency message.
+			if(strpos($message,'bu-alert-non-emergency') !== false){
+				$is_emergency = false;
+			}
+			$result = BU_AlertsPlugin::startAlert($message, $campus, $is_emergency);
 
 			if ($result)
 			{
