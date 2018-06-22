@@ -61,12 +61,21 @@ class BU_AlertsPlugin
 		return get_site_option($alert_type);
 	}
 
-	public static function startAlert($alert_message, $campus, $is_emergency = true)
+	public static function startAlert($alert_message, $campus, $type = 'emergency')
 	{
 		$site_option = self::SITE_OPT_ALERT;
 
-		if($is_emergency === false){
-			$site_option = self::SITE_OPT_IMPORTANT_ANNOUNCEMENT;
+		switch ($type) {
+			case "emergency":
+				$site_option = self::SITE_OPT_ALERT;
+				break;
+			case "announcement":
+				$site_option = self::SITE_OPT_IMPORTANT_ANNOUNCEMENT;
+				break;
+			default:
+				$site_option = self::SITE_OPT_ALERT;
+				error_log("BU Alert unknown type, emergency type assumed for startAlert");
+				break;
 		}
 
 		$site_ids = bu_alert_get_campus_site_ids($campus);
@@ -100,15 +109,29 @@ class BU_AlertsPlugin
 		return true;
 	}
 
-	public static function stopAlert($campus)
+	public static function stopAlert($campus, $type = 'announcement')
 	{
 		$site_ids = bu_alert_get_campus_site_ids($campus);
+
+		$site_option = self::SITE_OPT_IMPORTANT_ANNOUNCEMENT;
+
+		switch ($type) {
+			case "emergency":
+				$site_option = self::SITE_OPT_ALERT;
+				break;
+			case "announcement":
+				$site_option = self::SITE_OPT_IMPORTANT_ANNOUNCEMENT;
+				break;
+			default:
+				$site_option = self::SITE_OPT_IMPORTANT_ANNOUNCEMENT;
+				error_log("BU Alert unknown type, announcement type assumed for stopAlert");
+				break;
+		}
 
 		foreach ($site_ids as $site_id)
 		{
 			switch_to_network($site_id);
-			delete_site_option(self::SITE_OPT_ALERT);
-			delete_site_option(self::SITE_OPT_IMPORTANT_ANNOUNCEMENT);
+			delete_site_option($site_option);
 			/* Explicitly delete site option from cache
 			 *
 			 * There can be a race condition where wpdb->get gets called before wpdb->delete
@@ -121,9 +144,7 @@ class BU_AlertsPlugin
 			 * See slack conversation for additional background
 			 * https://buweb.slack.com/archives/webteam/p1475767822000060
 			 */
-			$key = $site_id . ':' . self::SITE_OPT_ALERT;
-			wp_cache_delete($key, 'site-options');
-			$key = $site_id . ':' . self::SITE_OPT_IMPORTANT_ANNOUNCEMENT;
+			$key = $site_id . ':' . $site_option;
 			wp_cache_delete($key, 'site-options');
 			restore_current_network();
 		}
