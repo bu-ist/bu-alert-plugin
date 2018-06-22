@@ -19,8 +19,8 @@ class BU_AlertsPlugin
 	const CSS_URL = 				'https://%s/alert/css/alert.css';
 
 	/* Site option name used to store alerts for a site */
-	const SITE_OPT_ALERT =                'bu-active-alert';
-	const SITE_OPT_IMPORTANT_ANNOUNCEMENT =                'bu-active-announcement';
+	const SITE_OPT_ALERT =                      'bu-active-alert';
+	const SITE_OPT_IMPORTANT_ANNOUNCEMENT =     'bu-active-announcement';
 
 	/* Holds a BU_AlertFile */
 	static $alert_file;
