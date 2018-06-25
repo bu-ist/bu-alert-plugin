@@ -91,19 +91,22 @@ class BU_AlertsPlugin
 			restore_current_network();
 		}
 
-		try
-		{
-			global $bu_alert_campus_map;
-			foreach ($bu_alert_campus_map[$campus] as $host)
+		if($type === 'emergency'){
+
+			try
 			{
-				$alert_file = new BU_AlertFile($host);
-				$alert_file->startAlert($alert_message);
+				global $bu_alert_campus_map;
+				foreach ($bu_alert_campus_map[$campus] as $host)
+				{
+					$alert_file = new BU_AlertFile($host);
+					$alert_file->startAlert($alert_message);
+				}
 			}
-		}
-		catch (Exception $e)
-		{
-			error_log('BU Alert: unable to write alert to file.');
-			return false;
+			catch (Exception $e)
+			{
+				error_log('BU Alert: unable to write alert to file.');
+				return false;
+			}
 		}
 
 		return true;
@@ -149,21 +152,22 @@ class BU_AlertsPlugin
 			restore_current_network();
 		}
 
-		try
-		{
-			global $bu_alert_campus_map;
-			foreach ($bu_alert_campus_map[$campus] as $host)
+		if($type === 'emergency'){
+			try
 			{
-				$alert_file = new BU_AlertFile($host);
-				$alert_file->stopAlert();
+				global $bu_alert_campus_map;
+				foreach ($bu_alert_campus_map[$campus] as $host)
+				{
+					$alert_file = new BU_AlertFile($host);
+					$alert_file->stopAlert();
+				}
+			}
+			catch (Exception $e)
+			{
+				error_log('BU Alert: unable to write stop alert to file.');
+				return false;
 			}
 		}
-		catch (Exception $e)
-		{
-			error_log('BU Alert: unable to write stop alert to file.');
-			return false;
-		}
-
 		return true;
 	}
 
