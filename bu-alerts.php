@@ -91,14 +91,12 @@ class BU_AlertsPlugin
 			restore_current_network();
 		}
 
-		if($type === 'emergency'){
-
 			try
 			{
 				global $bu_alert_campus_map;
 				foreach ($bu_alert_campus_map[$campus] as $host)
 				{
-					$alert_file = new BU_AlertFile($host);
+					$alert_file = new BU_AlertFile($host, $type);
 					$alert_file->startAlert($alert_message);
 				}
 			}
@@ -107,7 +105,6 @@ class BU_AlertsPlugin
 				error_log('BU Alert: unable to write alert to file.');
 				return false;
 			}
-		}
 
 		return true;
 	}
@@ -152,13 +149,12 @@ class BU_AlertsPlugin
 			restore_current_network();
 		}
 
-		if($type === 'emergency'){
 			try
 			{
 				global $bu_alert_campus_map;
 				foreach ($bu_alert_campus_map[$campus] as $host)
 				{
-					$alert_file = new BU_AlertFile($host);
+					$alert_file = new BU_AlertFile($host, $type);
 					$alert_file->stopAlert();
 				}
 			}
@@ -167,7 +163,6 @@ class BU_AlertsPlugin
 				error_log('BU Alert: unable to write stop alert to file.');
 				return false;
 			}
-		}
 		return true;
 	}
 

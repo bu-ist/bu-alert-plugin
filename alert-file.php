@@ -12,7 +12,7 @@ class BU_AlertFile
 	protected $file_path;
 	protected $host;
 
-	public function __construct($host)
+	public function __construct($host, $type)
 	{
 		$bu_init = BU_Config::get_instance();
 		$bu_wp_config = $bu_init->get_config_for_server(BU_INSTALL_TYPE);
@@ -24,7 +24,7 @@ class BU_AlertFile
 		}
 
 		$this->host = $host;
-		$this->file_path = sprintf('%s/%s/bu-alert.%s.txt', rtrim($installs_path, '/'), DB_NAME, $host);
+		$this->file_path = sprintf('%s/%s/bu-alert.%s.%s.txt', rtrim($installs_path, '/'), DB_NAME, $host, $type);
 		$this->load();
 	}
 
