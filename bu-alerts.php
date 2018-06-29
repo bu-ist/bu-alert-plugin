@@ -64,10 +64,10 @@ class BU_AlertsPlugin
 	/**
 	 * Returns the key of the site option to use for storing the alert
 	 *
-	 * @param string  $type              The type of alert we are acting on,
-	 *                                   e.g. emergency or announcement
-	 * @param boolean $fallback_to_alert Use string literal "fallback_to_alert" to
-	 *                                   use self::SITE_OPT_ALERT when $type is unknown
+	 * @param string $type              The type of alert we are acting on,
+	 *                                  e.g. emergency or announcement
+	 * @param string $fallback_to_alert Use string literal "fallback_to_alert" to
+	 *                                  use self::SITE_OPT_ALERT when $type is unknown
 	 * @return string The name of the site option to store the alert in
 	 */
 	public static function getSiteOptionByType($type, $fallback_to_alert=false)
