@@ -22,7 +22,13 @@ function bu_alert_batcache_plugin()
 		// also activated this unique key will change. Likewise, if both alerts
 		// are currently active and one type of alert is de-activated
 		// this unique key will change causing a purge cache.
-		$batcache->unique['active'] = $emergency_alert_file->getTimestamp() . $announcement_alert_file->getTimestamp();
+		if($emergency && $announcement){
+			$batcache->unique['active'] = $emergency_alert_file->getTimestamp() . $announcement_alert_file->getTimestamp();
+		} else if ($emergency) {
+			$batcache->unique['active'] = $emergency_alert_file->getTimestamp();
+		} else {
+			$batcache->unique['active'] = $announcement_alert_file->getTimestamp();
+		}
 	}
 }
 bu_alert_batcache_plugin();
