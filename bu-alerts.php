@@ -61,7 +61,7 @@ class BU_AlertsPlugin
 		return get_site_option($alert_type);
 	}
 
-	public static function getSiteOptionByType($type, $caller, $fallback_to_alert=false)
+	public static function getSiteOptionByType($type, $fallback_to_alert=false)
 	{
 		$site_option = self::SITE_OPT_ALERT;
 
@@ -79,7 +79,7 @@ class BU_AlertsPlugin
 				else {
 					$site_option = self::SITE_OPT_IMPORTANT_ANNOUNCEMENT;
 				}
-				error_log("BU Alert unknown type, " . $site_option . " type assumed for " . $caller);
+				error_log("BU Alert unknown type, " . $site_option . " type assumed");
 				break;
 		}
 
@@ -88,7 +88,7 @@ class BU_AlertsPlugin
 
 	public static function startAlert($alert_message, $campus, $type = 'emergency')
 	{
-		$site_option = self::getSiteOptionByType($type, 'startAlert', 'fallback_to_alert');
+		$site_option = self::getSiteOptionByType($type, 'fallback_to_alert');
 
 		$site_ids = bu_alert_get_campus_site_ids($campus);
 		$alert = array(
@@ -125,7 +125,7 @@ class BU_AlertsPlugin
 	{
 		$site_ids = bu_alert_get_campus_site_ids($campus);
 
-		$site_option = self::getSiteOptionByType($type, 'stopAlert');
+		$site_option = self::getSiteOptionByType($type);
 
 		foreach ($site_ids as $site_id)
 		{
