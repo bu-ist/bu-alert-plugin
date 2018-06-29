@@ -61,11 +61,21 @@ class BU_AlertsPlugin
 		return get_site_option($alert_type);
 	}
 
-	public static function startAlert($alert_message, $campus, $type = 'emergency')
+	/**
+	 * Returns the key of the site option to use for storing the alert
+	 *
+	 * @param string $type              The type of alert we are acting on,
+	 *                                  e.g. emergency or announcement
+	 * @param mixed  $fallback_to_alert Use string literal "fallback_to_alert" to
+	 *                                  use self::SITE_OPT_ALERT when $type is unknown
+	 * @return string The name of the site option to store the alert in
+	 */
+	public static function getSiteOptionByType($type, $fallback_to_alert=false)
 	{
 		$site_option = self::SITE_OPT_ALERT;
 
-		switch ($type) {
+		switch ($type)
+		{
 			case "emergency":
 				$site_option = self::SITE_OPT_ALERT;
 				break;
@@ -73,10 +83,24 @@ class BU_AlertsPlugin
 				$site_option = self::SITE_OPT_IMPORTANT_ANNOUNCEMENT;
 				break;
 			default:
-				$site_option = self::SITE_OPT_ALERT;
-				error_log("BU Alert unknown type, emergency type assumed for startAlert");
+				if ($fallback_to_alert === 'fallback_to_alert')
+				{
+					$site_option = self::SITE_OPT_ALERT;
+				}
+				else
+				{
+					$site_option = self::SITE_OPT_IMPORTANT_ANNOUNCEMENT;
+				}
+				error_log("BU Alert unknown type, " . $site_option . " type assumed");
 				break;
 		}
+
+		return $site_option;
+	}
+
+	public static function startAlert($alert_message, $campus, $type = 'emergency')
+	{
+		$site_option = self::getSiteOptionByType($type, 'fallback_to_alert');
 
 		$site_ids = bu_alert_get_campus_site_ids($campus);
 		$alert = array(
@@ -113,20 +137,7 @@ class BU_AlertsPlugin
 	{
 		$site_ids = bu_alert_get_campus_site_ids($campus);
 
-		$site_option = self::SITE_OPT_IMPORTANT_ANNOUNCEMENT;
-
-		switch ($type) {
-			case "emergency":
-				$site_option = self::SITE_OPT_ALERT;
-				break;
-			case "announcement":
-				$site_option = self::SITE_OPT_IMPORTANT_ANNOUNCEMENT;
-				break;
-			default:
-				$site_option = self::SITE_OPT_IMPORTANT_ANNOUNCEMENT;
-				error_log("BU Alert unknown type, announcement type assumed for stopAlert");
-				break;
-		}
+		$site_option = self::getSiteOptionByType($type);
 
 		foreach ($site_ids as $site_id)
 		{
