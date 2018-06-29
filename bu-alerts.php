@@ -65,7 +65,8 @@ class BU_AlertsPlugin
 	{
 		$site_option = self::SITE_OPT_ALERT;
 
-		switch ($type) {
+		switch ($type)
+		{
 			case "emergency":
 				$site_option = self::SITE_OPT_ALERT;
 				break;
@@ -73,10 +74,12 @@ class BU_AlertsPlugin
 				$site_option = self::SITE_OPT_IMPORTANT_ANNOUNCEMENT;
 				break;
 			default:
-				if ($fallback_to_alert === 'fallback_to_alert') {
+				if ($fallback_to_alert === 'fallback_to_alert')
+				{
 					$site_option = self::SITE_OPT_ALERT;
 				}
-				else {
+				else
+				{
 					$site_option = self::SITE_OPT_IMPORTANT_ANNOUNCEMENT;
 				}
 				error_log("BU Alert unknown type, " . $site_option . " type assumed");
