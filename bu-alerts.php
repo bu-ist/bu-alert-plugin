@@ -56,6 +56,11 @@ class BU_AlertsPlugin
 		}
 	}
 
+	protected static function getActiveAlert($alert_type)
+	{
+		return get_site_option($alert_type);
+	}
+
 	public static function getSiteOptionByType($type, $caller, $fallback_to_alert=false)
 	{
 		$site_option = self::SITE_OPT_ALERT;
@@ -79,11 +84,6 @@ class BU_AlertsPlugin
 		}
 
 		return $site_option;
-	}
-
-	protected static function getActiveAlert($alert_type)
-	{
-		return get_site_option($alert_type);
 	}
 
 	public static function startAlert($alert_message, $campus, $type = 'emergency')
