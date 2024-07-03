@@ -111,9 +111,13 @@ class BU_AlertsPlugin {
 
 		// Set network level site option for an alert, given the type and message.
 		foreach ( $site_ids as $site_id ) {
-			switch_to_network( $site_id );
+			if( function_exists( 'switch_to_network' ) ) {
+				switch_to_network( $site_id );
+			}
 			update_site_option( $site_option, $alert );
-			restore_current_network();
+			if( function_exists( 'restore_current_network' ) ) {
+				restore_current_network();
+			}
 		}
 
 		// Flushing the cache should affect every site in every network?
@@ -140,9 +144,13 @@ class BU_AlertsPlugin {
 		$site_option = self::getSiteOptionByType( $type );
 
 		foreach ( $site_ids as $site_id ) {
-			switch_to_network( $site_id );
+			if( function_exists( 'switch_to_network' ) ) {
+				switch_to_network( $site_id );
+			}
 			delete_site_option( $site_option );
-			restore_current_network();
+			if( function_exists( 'restore_current_network' ) ) {
+				restore_current_network();
+			}
 		}
 
 		// Flushing the cache should affect every site in every network?

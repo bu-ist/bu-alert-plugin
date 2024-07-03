@@ -71,7 +71,11 @@ function get_id_for_domain( $domain ) {
  * @return void
  */
 function remove_alert_option( $alert_option ) {
-	switch_to_network( $alert_option['site_id'] );
+	if( function_exists( 'switch_to_network' ) ) {
+		switch_to_network( $alert_option['site_id'] );
+	}
 	delete_site_option( $alert_option['meta_key'] );
-	restore_current_network();
+	if( function_exists( 'restore_current_network' ) ) {
+		restore_current_network();
+	}
 }
