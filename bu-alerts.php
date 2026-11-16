@@ -3,7 +3,7 @@
  * Plugin Name: BU Alert
  * Description: Displays & stores BU Alert emergency messages
  * Author: Boston University (IS&T)
- * Version: 3.0.0
+ * Version: 3.0.1
  * Author URI: http://www.bu.edu/
  *
  * @package BU Alert Plugin
@@ -52,7 +52,7 @@ class BU_AlertsPlugin {
 			'bu-alert-css',
 			plugin_dir_url( __FILE__ ) . 'alert.css',
 			array(),
-			'3.0'
+			'3.0.1'
 		);
 
 		// Initialize state.

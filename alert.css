@@ -9,7 +9,7 @@ body.wp-admin #bu-alert-wrapper {
 #bu-alert-non-emergency {
 	font-family: Arial, Helvetica, Verdana, sans-serif;
 
-	background: #fffbcc url(https://www.bu.edu/common/bueas/graphics/icon-standard.gif) no-repeat 12px 14px;
+	background: #fffbcc url(images/icon-standard.gif) no-repeat 12px 14px;
 	border: 1px solid #e6db55;
 
 	text-align: left;
@@ -90,7 +90,7 @@ body.wp-admin #bu-alert-wrapper {
 
 	padding: 15px 20px 15px 50px;
 
-	background: #1e1e1f url(https://www.bu.edu/common/bueas/graphics/icon-severe-small.gif) no-repeat scroll 3px 1px;
+	background: #1e1e1f url(images/icon-severe-small.gif) no-repeat scroll 3px 1px;
 
 
 	-moz-background-clip: -moz-initial;
